@@ -1,0 +1,223 @@
+:root {
+    --purple: rgb(196, 108, 196);
+    --light-purple: rgba(196, 108, 196, 0.199);
+    --white: rgb(250, 248, 246);
+    --offwhite: rgb(238, 238, 238);
+    --green: rgb(193, 225, 193);
+    --blue: rgb(193, 207, 225);
+    --orange: rgb(250, 200, 152);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Roboto, sans-serif;
+    background: rgb(238, 174, 202);
+    background: linear-gradient(0deg, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+}
+
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    flex-flow: column;
+    align-items: center;
+}
+
+#title {
+    background-color: var(--white);
+    /* color: var(--white); */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
+}
+
+#main-box {
+    display: flex;
+    width: 100%;
+    flex-flow: column;
+    align-items: center;
+}
+
+#input-wrapper {
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    /* padding: 10px; */
+    margin-bottom: 10px;
+    width: 66%;
+    background-color: var(--offwhite);
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
+    border-radius: 10px;
+    padding: 10px;
+    /* align-items: center; */
+}
+#input-top {
+    /* this exists */
+    padding-bottom: 10px;
+}
+
+#input-bot {
+    /* height: 200px; */
+    overflow-y: hidden;
+    position: relative;
+    overflow:hidden;
+    transition:max-height 0.3s ease-out; 
+    height:auto;
+    max-height:0px; 
+}
+#input-bot.collapsed {
+  max-height:0;
+}
+#input-bot.open {
+  max-height:40px;
+}
+
+form {
+    display: inline;
+    width: 100%;
+}
+
+#input {
+    width: calc(100%);
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    /* box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199); */
+}
+
+#upload-text {
+    padding: 10px;
+    /* display: inline; */
+}
+
+#upload-file {
+    display: none;
+}
+
+#extract-button {
+    height: 40px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.199);
+    background-color: var(--green);
+    display: inline;
+    float: right;
+}
+
+#upload-button {
+    text-align: center;
+    font-size: 14px;
+    height: 40px;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.199);
+    background-color: var(--orange);
+    display: inline;
+    float: left;
+}
+
+#options {
+    transition-duration: .5s;
+    background-color: var(--white);
+    display: flex;
+    padding: 10px;
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
+    position: relative;
+    width: 66%;
+    align-content: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    /* overflow-y: scroll; */
+
+}
+
+#output {
+    background-color: var(--white);
+    margin-bottom: 50px;
+    display: flex;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
+    position: relative;
+    width: 66%;
+    min-height: 25em;
+    /* max-height: 80vh; */
+    align-content: center;
+    border-radius: 10px;
+    /* overflow-y: scroll; */
+}
+
+.output-table {
+    width: 100%;
+    margin-right: 10px;
+    height: 0px;
+}
+
+.output-table th {
+    height: 2em;
+    font-size: larger;
+    user-select: none;
+    transition-duration: 0.3s;
+}
+
+th:hover {
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
+    border-radius: 10px;
+}
+
+td {
+    height: 1em;
+}
+
+tr:nth-of-type(even) {
+    background-color: rgb(238, 238, 238);
+}
+
+.purple {
+    color: var(--purple);
+    /* box-shadow: 1px 1px 5px 1px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    height: 30px;
+    width: 30px; */
+}
+
+#upload-button,
+#extract-button {
+    transition-duration: 0.2s;
+    width: calc(50% - 5px);
+}
+
+#upload-button:hover,
+#extract-button:hover {
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.199);
+}
+
+#upload-button:active,
+#extract-button:active {
+    /* filter: saturate(200%); */
+    /* filter: drop-shadow(10px); */
+    filter: brightness(75%)
+}
+
+@media only screen and (max-width: 600px) {
+    #output,
+    #input-wrapper {
+        width: 90%;
+    }
+    /* span::before {
+        content: ' ';
+        display: block;
+    } */
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Extractor</title>
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <h1 id="title">品詞抽出</h1>
+        <div id="main-box">
+            <div id="input-wrapper">
+                <div id="input-top">
+                    <form method="POST" action="/extract" id="extract-form" enctype="multipart/form-data">
+                        <input form="extract-form" type="text" name="text" id="input" placeholder="解析したい和文を入力してください">
+                        <input type="submit" id="extract-button" value="抽出す">
+
+                        <label for="upload-file" id="upload-button">ファイルを選択</label>
+                        <input type="file" id="upload-file" name="file" accept=".txt,.csv,.rtf">
+                    </form>
+                </div>
+                <div id="input-bot" class="collapsed">
+                    <div>選択されたファイル名： <span id="filename"></span></div>
+                </div>
+                {% if fname != ''%}
+                <div id="input-bot" class="open">
+                    <div>現在表示中： {{fname}}</div>
+                </div>
+                {% endif %}
+            </div>
+            <!-- <button>save output</button>
+                <button>upload filter</button> -->
+        </div>
+        <div id="output">
+            <table class="output-table" id="nouns-table">
+                <tr>
+                    <th id="nouns">名詞 <span class="purple">{{len_nouns or '0'}}</span></th>
+                </tr>
+                {% for item in nouns %}
+                <tr>
+                    <td>
+                        {{item}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <table class="output-table" id="verbs-table">
+                <tr>
+                    <th id="verbs">動詞 <span class="purple">{{len_verbs or '0'}}</span></th>
+                </tr>
+                {% for item in verbs %}
+                <tr>
+                    <td>
+                        {{item}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <table class="output-table" id="adjs-table">
+                <tr>
+                    <th id="adjs">形容詞 <span class="purple">{{len_adj or '0'}}</span></th>
+                </tr>
+                {% for item in adjectives %}
+                <tr>
+                    <td>
+                        {{item}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    </div>
+</body>
+<script>
+    const extractButton = document.getElementById('extract-button');
+    const postForm = document.getElementById('extract-form');
+    const inputBot = document.getElementById('input-bot');
+    const fileName = document.getElementById('filename');
+
+    document.getElementById("upload-file").onchange = function() {
+        extractButton.value = 'ファイルから抽出する';
+        extractButton.style.backgroundColor = 'rgb(193, 207, 225)'
+        postForm.action = '/upload';
+        inputBot.classList.remove('collapsed');
+        inputBot.classList.add('open');
+        fileName.innerHTML = document.getElementById('upload-file').value
+            // document.getElementById("upload-form").submit();
+    };
+    document.getElementById("input").onchange = function() {
+        extractButton.value = '抽出する';
+        extractButton.style.backgroundColor = 'rgb(193, 225, 193)'
+        postForm.action = '/extract';
+        inputBot.classList.remove('open');
+        inputBot.classList.add('collapsed');
+        // document.getElementById("upload-form").submit();
+    };
+
+
+    const nouns = document.getElementById('nouns')
+    const verbs = document.getElementById('verbs')
+    const adjs = document.getElementById('adjs')
+    const nounsTable = document.getElementById('nouns-table')
+    const verbsTable = document.getElementById('verbs-table')
+    const adjsTable = document.getElementById('adjs-table')
+
+    function selectElementContents(el) {
+        var wordsArr = el.childNodes[1].innerText.split('\n');
+        wordsArr.shift();
+        var words = wordsArr.join('\n');
+        navigator.clipboard.writeText(words);
+
+    }
+
+    function tooltip() {
+        var tooltip = document.getElementById("myTooltip");
+        tooltip.innerHTML = "Copied!";
+    }
+    function outFunc() {
+        var tooltip = document.getElementById("myTooltip");
+        tooltip.innerHTML = "Copy to clipboard";
+    }
+
+    //nouns.addEventListener("click", selectElementContents(nounsTable));
+    nouns.onclick = selectElementContents.bind(this, nounsTable);
+    verbs.onclick = selectElementContents.bind(this, verbsTable);
+    adjs.onclick = selectElementContents.bind(this, adjsTable);
+</script>
+
+</html>
