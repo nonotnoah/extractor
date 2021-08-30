@@ -16,7 +16,6 @@ def parse(text):
 dotdotdot = '...'
 digitsAndSpecialStr = "\'\",.?;:[]\{\}-=_+!@#$%^&*()<>/|… "
 digitsAndSpecial = [item for item in digitsAndSpecialStr]
-print(digitsAndSpecial)
 
 def get(wordType, text):
     full_text = parse(text)
@@ -44,7 +43,7 @@ def get(wordType, text):
 
     return words
 
-with open('blank.txt', 'r', encoding='utf-8') as filterfile:  # utf-8 is important!
+with open('utils/text/blank.txt', 'r', encoding='utf-8') as filterfile:  # utf-8 is important!
     ff_lines = filterfile.read()
     filterlist = ff_lines.split("\n")
     
