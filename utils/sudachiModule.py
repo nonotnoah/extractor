@@ -27,7 +27,6 @@ def get(wordType, text):
                 # print('bad character', word)
                 continue
             except:
-                print(word)
                 try:
                     type = [m.part_of_speech() for m in tokenizer_obj.tokenize(word, mode)]
                     if wordType == '動詞' == type[0][0]: # get dictionary form if word is verb
@@ -35,7 +34,7 @@ def get(wordType, text):
                     elif type[0][0] == wordType:
                         type_words.append(word)
                 except:
-                    # print('no good coach')
+                    # print('no good, coach')
                     continue
         
     all_words = [word for word in type_words if word not in filterlist]

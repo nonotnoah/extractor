@@ -1,3 +1,4 @@
+from os import error
 import fitz
 from utils import sudachiModule
 from flask import Flask, render_template, request
@@ -7,22 +8,24 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def hello():
-    return render_template('index.html', fname='')
+    return render_template('index.html', error='', fname='')
 
 @app.route('/extract', methods=['GET', 'POST'])
 def extract():
     if request.method == 'POST':
         try:
             tag = request.form['text']
+            if tag == '':
+                return render_template('index.html', error='No text received', fname='')
             nouns = sudachiModule.get('名詞', tag)
             verbs = sudachiModule.get('動詞', tag)
             adjectives = sudachiModule.get('形容詞', tag)
             len_nouns = len(nouns)
             len_verbs = len(verbs)
             len_adj = len(adjectives)
-            return render_template('index.html', fname='', nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
+            return render_template('index.html', error='', fname='', nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
         except:
-            return render_template('index.html', fname='')
+            return render_template('index.html', error='', fname='')
 
 ALLOWED_EXTENSIONS = ['txt', 'csv', 'rtf']#, 'pdf']
 def allowed_file(filename):
@@ -33,12 +36,12 @@ def allowed_file(filename):
 def upload():
     if request.method == 'POST':
         if 'file' not in request.files:
-            print('no file uploaded')
-            return render_template('index.html')
+            return render_template('index.html', error='No file uploaded')
+
         file = request.files['file']
         if file.filename == '':
-            print('no selected file')
-            return render_template('index.html')
+            return render_template('index.html', error='No selected file')
+
         if file and allowed_file(file.filename):
             # if file.filename[-4:] == '.pdf':
             #     with fitz.open(file) as doc:
@@ -55,9 +58,11 @@ def upload():
             len_verbs = len(verbs)
             len_adj = len(adjectives)
             
-            return render_template('index.html', fname=file.filename, nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
+            return render_template('index.html', error='', fname=file.filename, nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
             
-        return render_template('index.html')
+        return render_template('index.html', error='Invalid filetype. Supported filetypes: .csv, .txt, .rtf')
+
+    return render_template('index.html', error='No file uploaded')
 
 
 if __name__ == '__main__':
