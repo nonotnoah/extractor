@@ -1,5 +1,4 @@
-from os import error
-import fitz
+# import fitz
 from utils import sudachiModule
 from flask import Flask, render_template, request
 app = Flask(__name__)
