@@ -4,4 +4,4 @@ Lib/
 Scripts/
 project ideas
 pyvenv.cfg
-.extractor plain.py.un~
+".extractor plain.py.un~"
