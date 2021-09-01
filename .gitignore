@@ -6,3 +6,6 @@ project ideas
 pyvenv.cfg
 .extractor plain.py.un~
 test.py 
+extractor.ini
+venv/
+wsgi.py
