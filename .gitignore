@@ -9,3 +9,5 @@ test.py
 extractor.ini
 venv/
 wsgi.py
+extractor-sudachi.py
+scratch.py
