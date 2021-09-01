@@ -19,11 +19,13 @@ body {
     font-family: Roboto, sans-serif;
     background: rgb(238, 174, 202);
     background: linear-gradient(0deg, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    padding-bottom: 25px;
 }
 
 .main-wrapper {
     display: flex;
     width: 100%;
+    margin: 0;
     flex-flow: column;
     align-items: center;
 }
@@ -32,6 +34,7 @@ body {
     position: absolute;
     width: 100%;
 }
+
 #language-select {
     box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
     /* border: 7px inset var(--gray); */
@@ -159,7 +162,7 @@ form {
 
 #output {
     background-color: var(--white);
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     display: flex;
     padding-left: 10px;
     padding-top: 10px;
@@ -167,7 +170,7 @@ form {
     box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
     position: relative;
     width: 66%;
-    min-height: 25em;
+    min-height: 15em;
     /* max-height: 80vh; */
     align-content: center;
     border-radius: 10px;
@@ -261,6 +264,19 @@ tr:nth-of-type(even) {
     /* filter: saturate(200%); */
     /* filter: drop-shadow(10px); */
     filter: brightness(75%)
+}
+
+#bot-menu {
+    display: flex;
+    justify-content: center;
+}
+
+#bot-menu i {
+    font-size: x-large;
+    color: var(--white);
+    background-color: var(--gray);
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.199);
+    border-radius: 10px;
 }
 
 @media only screen and (max-width: 600px) {
