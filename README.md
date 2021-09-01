@@ -1,5 +1,5 @@
-# Working demo live at https://抽出.xyz
-# Extractor
+# Working demo live at [抽出.xyz](https://抽出.xyz)
+# Extractor**
 
 Part-of-word extractor for Japanese text.
 
