@@ -1,0 +1,3 @@
+nouns = 명사
+verbs = 동사
+adjs = 형용사

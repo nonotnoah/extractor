@@ -1,4 +1,5 @@
 :root {
+    --gray: rgba(0, 0, 0, 0.199);
     --purple: rgb(196, 108, 196);
     --light-purple: rgba(196, 108, 196, 0.199);
     --white: rgb(250, 248, 246);
@@ -25,6 +26,20 @@ body {
     width: 100%;
     flex-flow: column;
     align-items: center;
+}
+
+#language-wrapper {
+    position: absolute;
+    width: 100%;
+}
+#language-select {
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.199);
+    /* border: 7px inset var(--gray); */
+    border-radius: 10px;
+    position: absolute;
+    right: 21.44px;
+    top: 21.44px;
+    z-index: 1;
 }
 
 #title {

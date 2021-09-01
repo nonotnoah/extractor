@@ -1,8 +1,13 @@
 # import fitz
-from utils import sudachiModule
+from utils import sudachiModule, konlpyModule
 from flask import Flask, render_template, request
 app = Flask(__name__)
 
+
+ALLOWED_EXTENSIONS = ['txt', 'csv', 'rtf']#, 'pdf']
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 @app.route('/home')
@@ -25,11 +30,6 @@ def extract():
             return render_template('index.html', error='', fname='', nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
         except:
             return render_template('index.html', error='', fname='')
-
-ALLOWED_EXTENSIONS = ['txt', 'csv', 'rtf']#, 'pdf']
-def allowed_file(filename):
-    return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -63,6 +63,33 @@ def upload():
 
     return render_template('index.html', error='No file uploaded')
 
+# Each page needs to def its own decorator + function. Looks stupid I know.
+# If you know a better way please open a PR.
+
+@app.route('/ko')
+def korean():
+    return render_template('korean.html', error='', fname='')
+
+@app.route('/ko/extract', methods=['GET', 'POST'])
+def extract_ko():
+    if request.method == 'POST':
+        try:
+            tag = request.form['text']
+            if tag == '':
+                return render_template('korean.html', error='No text received', fname='')
+            nouns = konlpyModule.get('Noun', tag)
+            verbs = konlpyModule.get('Verb', tag)
+            adjectives = konlpyModule.get('Adjective', tag)
+            len_nouns = len(nouns)
+            len_verbs = len(verbs)
+            len_adj = len(adjectives)
+            return render_template('korean.html', error='', fname='', nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
+        except:
+            return render_template('korean.html', error='', fname='')
+
+@app.route('/ko/upload', methods=['GET', 'POST'])
+def upload_ko():
+    pass
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
