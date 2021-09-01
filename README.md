@@ -4,7 +4,7 @@ Or [抽出.xyz](https://抽出.xyz); it points to the same place.
 
 Part-of-sentence extractor for Japanese or Korean text. 
 - Targeted at intermediate-advanced learners not worried about grammar looking to build vocabulary. 
-- txt, csv, and rtf file uploads are supported, but please don't upload massive (>10 mb) text files (instead, break up the document you want to analyze into smaller chunks).
+- txt, csv, and rtf file uploads are supported, but please don't upload massive (>10 mb) text files.
 
 ## Example Usage
 You've just recieved a lease from your landlord and aren't familiar with housing vocabulary. Input the text of the document into [wordextractor.xyz](https://wordextractor.xyz) to get a list of only the words you need to know to understand the document.
