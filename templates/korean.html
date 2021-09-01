@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>品詞抽出</title>
+    <title>Word Extractor</title>
     <link rel="stylesheet" href="/static/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,34 +15,34 @@
 <body>
     <div id="language-wrapper">
         <select name="language" id="language-select">
-            <option value="jp">Japanese</option>
             <option value="ko">Korean</option>
+            <option value="jp">Japanese</option>
         </select>
     </div>
     <div class="main-wrapper">
-        <h1 id="title">品詞抽出</h1>
+        <h1 id="title">Word Extractor</h1>
         <div id="main-box">
             <div id="input-wrapper">
                 <div id="input-top">
-                    <form method="POST" action="/extract" id="extract-form" enctype="multipart/form-data">
-                        <textarea form="extract-form" type="text" name="text" id="input" placeholder="解析したい和文を入力してください"></textarea>
-                        <input type="submit" id="extract-button" value="抽出する">
+                    <form method="POST" action="/ko/extract" id="extract-form" enctype="multipart/form-data">
+                        <textarea form="extract-form" type="text" name="text" id="input" placeholder="Enter text to analyze"></textarea>
+                        <input type="submit" id="extract-button" value="Extract">
 
-                        <label for="upload-file" id="upload-button">ファイルを選択</label>
+                        <label for="upload-file" id="upload-button">Upload File</label>
                         <input type="file" id="upload-file" name="file" accept=".txt,.csv,.rtf">
                     </form>
                 </div>
                 <div id="input-bot" class="collapsed">
-                    <div>選択されたファイル名： <span id="filename"></span></div>
+                    <div>Selected File: <span id="filename"></span></div>
                 </div>
                 {% if error != '' %}
                 <div id="input-bot" class="open">
-                    <div><span style="color: red;">エラー：&nbsp;</span>{{error}}</div>
+                    <div><span style="color: red;">Error:&nbsp;</span>{{error}}</div>
                 </div>  
                 {% endif %}
                 {% if fname != '' and error == '' %}
                 <div id="input-bot" class="open">
-                    <div>現在表示中： {{fname}}</div>
+                    <div>Currently Showing: {{fname}}</div>
                 </div>
                 {% endif %}
             </div>
@@ -54,8 +54,8 @@
             <table class="output-table" id="nouns-table">
                 <tr>
                     <th id="nouns">
-                        <span class="copy" id="noun-copy">コピー</span>
-                        名詞&nbsp;<span class="purple">{{len_nouns or '0'}}</span>
+                        <span class="copy" id="noun-copy">Copy</span>
+                        명사&nbsp;<span class="purple">{{len_nouns or '0'}}</span>
                     </th>
                 </tr>
                 {% for item in nouns %}
@@ -69,8 +69,8 @@
             <table class="output-table" id="verbs-table">
                 <tr>
                     <th id="verbs">
-                        <span class="copy" id="verb-copy">コピー</span>
-                        動詞&nbsp;<span class="purple">{{len_verbs or '0'}}</span>
+                        <span class="copy" id="verb-copy">Copy</span>
+                        동사&nbsp;<span class="purple">{{len_verbs or '0'}}</span>
                     </th>
                 </tr>
                 {% for item in verbs %}
@@ -84,8 +84,8 @@
             <table class="output-table" id="adjs-table">
                 <tr>
                     <th id="adjs">
-                        <span class="copy" id="adj-copy">コピー</span>
-                        形容詞&nbsp;<span class="purple">{{len_adj or '0'}}</span>
+                        <span class="copy" id="adj-copy">Copy</span>
+                        형용사&nbsp;<span class="purple">{{len_adj or '0'}}</span>
                     </th>
                 </tr>
                 {% for item in adjectives %}
@@ -105,11 +105,9 @@
     const languageSelect = document.getElementById('language-select');
 
     languageSelect.onchange = function() {
-        if (languageSelect.value == 'ko')
-            location.replace('/ko');
-
+        if (languageSelect.value == 'jp')
+            location.replace('/home');
     };
-
 
     const extractButton = document.getElementById('extract-button');
     const postForm = document.getElementById('extract-form');
@@ -117,18 +115,18 @@
     const fileName = document.getElementById('filename');
 
     document.getElementById("upload-file").onchange = function() {
-        extractButton.value = 'ファイルから抽出する';
+        extractButton.value = 'Extract From File';
         extractButton.style.backgroundColor = 'rgb(193, 207, 225)'
-        postForm.action = '/upload';
+        postForm.action = '/ko/upload';
         inputBot.classList.remove('collapsed');
         inputBot.classList.add('open');
         fileName.innerHTML = document.getElementById('upload-file').value
             // document.getElementById("upload-form").submit();
     };
     document.getElementById("input").onchange = function() {
-        extractButton.value = '抽出する';
+        extractButton.value = 'Extract';
         extractButton.style.backgroundColor = 'rgb(193, 225, 193)'
-        postForm.action = '/extract';
+        postForm.action = '/ko/extract';
         inputBot.classList.remove('open');
         inputBot.classList.add('collapsed');
         // document.getElementById("upload-form").submit();
@@ -155,11 +153,11 @@
             wordsArr.shift();
         var words = wordsArr.join('\n');
         navigator.clipboard.writeText(words);
-        copy.innerHTML = "コピーした！";
+        copy.innerHTML = "Copied!";
 
         this.addEventListener('mouseout', async () => {
             await sleep(300);
-            copy.innerHTML = "コピー";
+            copy.innerHTML = "Copy";
         })
 
     }
