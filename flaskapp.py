@@ -11,7 +11,7 @@ def allowed_file(filename):
 
 @app.route('/')
 @app.route('/home')
-def hello():
+def japanese():
     return render_template('index.html', error='', fname='')
 
 @app.route('/extract', methods=['GET', 'POST'])
@@ -30,6 +30,7 @@ def extract():
             return render_template('index.html', error='', fname='', nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
         except:
             return render_template('index.html', error='', fname='')
+    return render_template('index.html', error='', fname='')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -86,9 +87,39 @@ def extract_ko():
             return render_template('korean.html', error='', fname='', nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
         except:
             return render_template('korean.html', error='', fname='')
+    return render_template('korean.html', error='', fname='')
 
 @app.route('/ko/upload', methods=['GET', 'POST'])
 def upload_ko():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return render_template('korean.html', error='No file uploaded')
+
+        file = request.files['file']
+        if file.filename == '':
+            return render_template('korean.html', error='No selected file')
+
+        if file and allowed_file(file.filename):
+            # if file.filename[-4:] == '.pdf':
+            #     with fitz.open(file) as doc:
+            #         text = ''
+            #         for page in doc:
+            #             text += page.getText()
+            # else:
+            text = file.read().decode('utf-8')
+
+            nouns = konlpyModule.get('Noun', text)
+            verbs = konlpyModule.get('Verb', text)
+            adjectives = konlpyModule.get('Adjective', text)
+            len_nouns = len(nouns)
+            len_verbs = len(verbs)
+            len_adj = len(adjectives)
+            
+            return render_template('korean.html', error='', fname=file.filename, nouns=nouns, adjectives=adjectives, verbs=verbs, len_nouns=len_nouns, len_adj=len_adj, len_verbs=len_verbs)
+            
+        return render_template('korean.html', error='Invalid filetype. Supported filetypes: .csv, .txt, .rtf')
+
+    return render_template('korean.html', error='No file uploaded')
     pass
 
 if __name__ == '__main__':
