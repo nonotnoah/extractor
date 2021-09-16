@@ -27,15 +27,21 @@ def get(wordType, text):
                 # print('bad character', word)
                 continue
             except:
-                try:
-                    type = [m.part_of_speech() for m in tokenizer_obj.tokenize(word, mode)]
-                    if wordType == '動詞' == type[0][0]: # get dictionary form if word is verb
-                        type_words.append(parse_dictionary_form(word))
-                    elif type[0][0] == wordType:
-                        type_words.append(word)
-                except:
-                    # print('no good, coach')
-                    continue
+                for char in word:
+                    # check string for jpn character
+                    if char.isalpha():
+                        print(char)
+                        try:
+                            print(type[0][0])
+                            type = [m.part_of_speech() for m in tokenizer_obj.tokenize(word, mode)]
+                            if wordType == '動詞' == type[0][0]: # get dictionary form if word is verb
+                                type_words.append(parse_dictionary_form(word))
+                            elif type[0][0] == wordType:
+                                type_words.append(word)
+                            break
+                        except:
+                            print('no good, coach')
+                            continue
         
     all_words = [word for word in type_words if word not in filterlist]
     words = list(OrderedDict.fromkeys(all_words))
