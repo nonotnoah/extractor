@@ -15,6 +15,7 @@ def parse(text):
 
 dotdotdot = '...'
 digitsAndSpecialStr = "\'\",.?;:[]\{\}-=_+!@#$%^&*()<>/|… "
+alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 digitsAndSpecial = [item for item in digitsAndSpecialStr]
 
 def get(wordType, text):
@@ -27,17 +28,16 @@ def get(wordType, text):
                 # print('bad character', word)
                 continue
             except:
+                # check string for jpn character
                 for char in word:
-                    # check string for jpn character
-                    if not char.isalpha():
+                    if char not in alphabet: 
+
                         try:
-                            print(type[0][0])
                             type = [m.part_of_speech() for m in tokenizer_obj.tokenize(word, mode)]
                             if wordType == '動詞' == type[0][0]: # get dictionary form if word is verb
                                 type_words.append(parse_dictionary_form(word))
                             elif type[0][0] == wordType:
                                 type_words.append(word)
-                            continue
                         except:
                             # print('no good, coach')
                             continue
